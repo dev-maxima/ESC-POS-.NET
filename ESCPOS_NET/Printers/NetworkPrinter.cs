@@ -46,10 +46,15 @@ namespace ESCPOS_NET
 
         public void Dispose()
         {
-            _writer.Close();
-            _reader.Close();
-            _socket.Close();
-            _socket.Dispose();
+            if (_socket != null)
+            {
+                _writer?.Close();
+                _reader?.Close();
+                _socket.Close();
+                _socket = null;
+
+                GC.SuppressFinalize(this);
+            }
         }
     }
 }
